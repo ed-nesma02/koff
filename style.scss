@@ -1,4 +1,15 @@
-.footer{
-  background-color: #1C1C1C;
-  color: #fff;
-}
+@import 'styles/fonts';
+@import 'styles/default';
+@import 'styles/header';
+@import 'styles/catalog';
+@import 'styles/goods';
+@import 'styles/card';
+@import 'styles/cart';
+@import 'styles/breadcrumb';
+@import 'styles/contacts';
+@import 'styles/footer';
+@import 'styles/form-order';
+@import 'styles/product';
+@import 'styles/radio';
+@import 'styles/table';
+@import 'styles/order';

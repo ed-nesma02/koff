@@ -1,7 +1,7 @@
 .order {
-  margin-top: 32px;
+  padding-top: 32px;
   @media (min-width: 580px) {
-    margin-top: 60px;
+    padding-top: 60px;
   }
 
   &__container {
@@ -83,6 +83,20 @@
     border-radius: 32px;
     border: 1px solid #780096;
     background:#780096;
+    transition: background .2s ease-in-out;
+    &:hover {
+      background: #9200B7;
+    }
+    &:focus-visible {
+      outline: 1px solid #C0F;
+      border: 1px solid #C0F;
+    }
+    &:disabled {
+      border-radius: 32px;
+      border: 1px solid #780096;
+      opacity: 0.2;
+      background: #780096;
+    }
   }
 }
 

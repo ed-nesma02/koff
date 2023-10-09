@@ -1,5 +1,8 @@
 .card {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
   &__link {
     
@@ -14,11 +17,20 @@
 
   &__img {
     width: 100%;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 16px;
+    aspect-ratio: 7/6;
+
+    @media (min-width: 580){
+      aspect-ratio: 23/20;
+    }
+    @media (min-width: 820){
+      aspect-ratio: 151/125;
+    }
   }
 
   &__info{
+    flex-grow: 1;
     @media (min-width: 580px){
       display: flex;
       justify-content: space-between;

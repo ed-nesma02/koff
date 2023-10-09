@@ -8,7 +8,7 @@ import {Order} from './modules/Main/Order/Order';
 import {ProductList} from './modules/ProductList/ProductList';
 import {ApiService} from './services/ApiService';
 import {Catalog} from './modules/Catalog/Catalog';
-import { NotFound } from './modules/NotFound/NotFound';
+import {NotFound} from './modules/NotFound/NotFound';
 
 const productSlider = () => {
   Promise.all([
@@ -73,14 +73,22 @@ const init = () => {
       async ({params: {slug, page}}) => {
         console.log();
         const product = await api.getProducts(page, 12, '', slug);
-        new ProductList().mount(new Main().element, product.data, product.pagination, slug);
+        new ProductList().mount(
+          new Main().element,
+          product.data,
+          product.pagination,
+          slug
+        );
         router.updatePageLinks();
       },
       {
         leave(done) {
           new ProductList().unmount();
           done();
-        }
+        },
+        already() {
+          
+        },
       }
     )
     .on(
@@ -122,14 +130,14 @@ const init = () => {
     .notFound(
       () => {
         new NotFound().mount(new Main().element);
-        
+
         setTimeout(() => {
           router.navigate('/');
         }, 5000);
       },
       {
         leave(done) {
-          new NotFound().unmount()
+          new NotFound().unmount();
           done();
         },
       }

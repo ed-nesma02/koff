@@ -64,6 +64,19 @@
     color: #780096;
     border-radius: 32px;
     border: 1px solid #780096;
+    transition: color .2s ease-in-out;
+
+    &:hover{
+      color: #fff;
+      background: #9200B7;
+    }
+    &:focus-visible{
+      outline: 1px solid #C0F;
+    }
+    &:disabled {
+      opacity: 0.2;
+      pointer-events: none;
+    }
   }
 
   &__favorite {

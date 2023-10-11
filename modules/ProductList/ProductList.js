@@ -1,4 +1,5 @@
 import {API_URL} from '../../const';
+import {Card} from '../../features/Card/Card';
 import {addContainer} from '../addContainer';
 
 export class ProductList {
@@ -17,7 +18,7 @@ export class ProductList {
     return ProductList.instance;
   }
 
-  mount(parent, data, pagination, title) {
+  mount(parent, data, pagination, slug, title, path) {
     this.containerElement.textContent = '';
     const titleElem = document.createElement('h2');
     titleElem.textContent = title ? title : 'Список товаров';
@@ -27,7 +28,7 @@ export class ProductList {
       : 'goods__title visually-hidden';
 
     this.containerElement.append(titleElem);
-    this.updateListElem(data, pagination, title);
+    this.updateListElem(data, pagination, slug, path);
 
     if (this.isMounted) {
       return;
@@ -44,13 +45,13 @@ export class ProductList {
   addEvents(pageNumber) {
     this.page = pageNumber;
   }
-  updateListElem(data = [], pagination, title) {
+  updateListElem(data = [], pagination, slug, path) {
     const listElem = document.createElement('ul');
     listElem.classList.add('goods__list');
 
-    const listItems = data.map((item) => {
+    const listItems = data.map(({id, name: title, price, images: [image]}) => {
       const listItemElement = document.createElement('li');
-      listItemElement.innerHTML = this.getHTMLTemplateListItem(item);
+      listItemElement.append(new Card({id, title, price, image}).create());
       return listItemElement;
     });
 
@@ -69,7 +70,9 @@ export class ProductList {
     }/${pagination.totalProducts} * 100%)">
       </div>
       <div class="pagination__arrays">
-        <a class="pagination__left" href='/category?slug=${title}&page=${
+        <a class="pagination__left" href='/${path}?${
+        path === 'category' ? `slug=${slug}&` : ''
+      }page=${
         pagination.currentPage > 1
           ? pagination.currentPage - 1
           : pagination.currentPage
@@ -81,13 +84,15 @@ export class ProductList {
         <p>
           <span class="pagination__current">${
             pagination.currentPage === pagination.totalPages
-            ? pagination.totalProducts
-            : pagination.currentPage * data.length
+              ? pagination.totalProducts
+              : pagination.currentPage * data.length
           }</span>
           из
           <span class="pagination__total">${pagination.totalProducts}</span>
         </p>           
-        <a class="pagination__right" href='/category?slug=${title}&page=${
+        <a class="pagination__right" href='//${path}?${
+          path === 'category' ? `slug=${slug}&` : ''
+        }page=${
         pagination.currentPage < pagination.totalPages
           ? pagination.currentPage + 1
           : pagination.currentPage
@@ -101,28 +106,5 @@ export class ProductList {
     `;
       this.containerElement.append(paginationElem);
     }
-  }
-  getHTMLTemplateListItem({id, name: title, price, images: [image]}) {
-    return `
-      <article class="goods__card card">
-        <a href="/product/${id}" class="card__link card__link_img">
-          <img src="${API_URL}${image}" alt="${title}" class="card__img">
-        </a>
-        <div class="card__info">
-          <h3 class="card__title">
-            <a href="/product/${id}" class="card__link">
-            ${title}
-            </a>
-          </h3>
-          <p class="card__price">${price.toLocaleString()}&nbsp;000&nbsp;₽</p>
-        </div>
-        <button class="card__btn" data-id="${id}">В корзину</button>
-        <button class="card__favorite" data-id="${id}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M8.41331 13.8733C8.18665 13.9533 7.81331 13.9533 7.58665 13.8733C5.65331 13.2133 1.33331 10.46 1.33331 5.79332C1.33331 3.73332 2.99331 2.06665 5.03998 2.06665C6.25331 2.06665 7.32665 2.65332 7.99998 3.55998C8.67331 2.65332 9.75331 2.06665 10.96 2.06665C13.0066 2.06665 14.6666 3.73332 14.6666 5.79332C14.6666 10.46 10.3466 13.2133 8.41331 13.8733Z" fill="white" stroke="#1C1C1C" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </article>
-    `;
   }
 }

@@ -28,6 +28,10 @@ export class ProductList {
       : 'goods__title visually-hidden';
 
     this.containerElement.append(titleElem);
+    console.log(data);
+    if(data === undefined && path === 'favorite'){
+      this.getEpty();
+    }
     this.updateListElem(data, pagination, slug, path);
 
     if (this.isMounted) {
@@ -106,5 +110,12 @@ export class ProductList {
     `;
       this.containerElement.append(paginationElem);
     }
+  }
+
+  getEpty() {
+    const text = document.createElement('p');
+    text.textContent = 'Вы не добавили ничего в избранное';
+
+    this.containerElement.append(text);
   }
 }

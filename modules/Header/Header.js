@@ -1,3 +1,4 @@
+import Navigo from 'navigo';
 import {Logo} from '../../features/Logo/Logo';
 import {likeSvg} from '../../features/likeSVG/likeSVG';
 import {addContainer} from '../addContainer';
@@ -17,13 +18,13 @@ export class Header {
     return Header.instance;
   }
 
-  mount() {
+  mount(router) {
     if (this.isMounted) {
       return;
     }
 
     const logo = new Logo('header').create();
-    const searchForm = this.getSearchForm();
+    const searchForm = this.getSearchForm(router);
     const navigation = this.getNavigation();
 
     this.containerElement.append(logo, searchForm, navigation);
@@ -37,16 +38,18 @@ export class Header {
     this.isMounted = false;
   }
 
-  getSearchForm() {
+  getSearchForm(router) {
     const searchForm = document.createElement('form');
     searchForm.classList.add('header__search');
     searchForm.method = 'get';
+    searchForm.action = '/search'
 
     const input = document.createElement('input');
     input.classList.add('header__input');
     input.type = 'search';
     input.name = 'search';
     input.placeholder = 'Введите запрос';
+
 
     const button = document.createElement('button');
     button.classList.add('header__btn');
@@ -57,6 +60,12 @@ export class Header {
         <path d="M14.6667 14.6666L13.3334 13.3333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     `;
+
+    searchForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      router.navigate(`/search?search=${input.value}`);
+      input.value = '';
+    });
 
     searchForm.append(input, button);
     return searchForm;

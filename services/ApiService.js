@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {API_URL} from '../const';
-import {AccessKeyService, StorageService} from './StorageService';
+import {AccessKeyService} from './StorageService';
 
 export class ApiService {
   #apiUrl = API_URL;
@@ -49,7 +49,6 @@ export class ApiService {
   async getProducts(params = {}) {
     if (params.list) {
       params.list = params.list.join(",");
-      console.log(params.list);
     }
     return await this.getData("api/products", params);
   }

@@ -40,7 +40,7 @@ export class Catalog {
 
       const link = document.createElement('a');
       link.classList.add('catalog__link');
-      link.href = `/category?slug=${item}&page=1`;
+      link.href = `/category?slug=${item}`;
       link.textContent = item;
 
       listItemElem.append(link);

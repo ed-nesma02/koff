@@ -10,6 +10,7 @@ import {ApiService} from './services/ApiService';
 import {Catalog} from './modules/Catalog/Catalog';
 import {NotFound} from './modules/NotFound/NotFound';
 import {FavoriteService} from './services/StorageService';
+import {Pagination} from './features/Pagination/Pagination';
 
 const productSlider = () => {
   Promise.all([
@@ -40,7 +41,7 @@ const productSlider = () => {
 const init = () => {
   const api = new ApiService();
   const router = new Navigo('/', {linksSelector: "a[href^='/']"});
-  new Header().mount();
+  new Header().mount(router);
   new Main().mount();
   new Footer().mount();
 
@@ -64,23 +65,25 @@ const init = () => {
           new ProductList().unmount();
           done();
         },
-        already() {
-          console.log('alredy');
+        already(match) {
+          match.route.handler(match);
         },
       }
     )
     .on(
       '/category',
       async ({params: {slug, page}}) => {
-        const product = await api.getProducts({page, category: slug});
-        new ProductList().mount(
-          new Main().element,
-          product.data,
-          product.pagination,
-          slug,
-          slug, 
-          'category'
-        );
+        const product = await api.getProducts({
+          page: page || 1,
+          category: slug,
+        });
+        new ProductList().mount(new Main().element, product.data, slug, 'Товар отсутствует');
+        if (product.pagination.totalPages > 1) {
+          new Pagination()
+            .mount(new ProductList().containerElement)
+            .update(product.pagination);
+        }
+
         router.updatePageLinks();
       },
       {
@@ -88,22 +91,20 @@ const init = () => {
           new ProductList().unmount();
           done();
         },
-        already() {},
       }
     )
     .on(
       '/favorite',
-      async ({params: {slug, page}}) => {
+      async ({params: {page}}) => {
         const list = new FavoriteService().get();
         const product = await api.getProducts({page, list});
-        new ProductList().mount(
-          new Main().element,
-          product.data,
-          product.pagination,
-          slug,
-          'Избранное',
-          'favorite'
-        );
+        new ProductList().mount(new Main().element, product.data, 'Избранное', 'В избранном ничего нет');
+        if (product.pagination.totalPages > 1) {
+          new Pagination()
+            .mount(new ProductList().containerElement)
+            .update(product.pagination);
+        }
+
         router.updatePageLinks();
       },
       {
@@ -111,10 +112,26 @@ const init = () => {
           new ProductList().unmount();
           done();
         },
+        already(match) {
+          match.route.handler(match);
+        },
       }
     )
-    .on('/search', () => {
-      console.log('search');
+    .on('/search', async ({params: {search, page}}) => {
+      const product = await api.getProducts({page: page || 1, search});
+      new ProductList().mount(
+        new Main().element,
+        product.data,
+        `Результаты по запросу: ${search}`,
+        'Ничего не найдено'
+      );
+      if (product.pagination.totalPages > 1) {
+        new Pagination()
+          .mount(new ProductList().containerElement)
+          .update(product.pagination);
+      }
+
+      router.updatePageLinks();
     })
     .on('/product/:id', ({data: {id}}) => {
       console.log('product');

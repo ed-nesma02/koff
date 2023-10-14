@@ -167,8 +167,31 @@
   }
 
   &__like {
-    width: 16px;
-    height: 16px;
+    top: 12px;
+    right: 12px;
+    svg {
+      fill: #fff;
+    }
+    &:hover,
+    &_active{
+      color: #9200B7;
+      svg {
+        fill: #9200B7;
+      }
+    }
+    &:active{
+      color: #c0f;
+      svg {
+        fill: #c0f;
+      }
+    }
+    &:focus-visible{
+      outline: 1px solid #C0F;
+    }
+    &:disabled {
+      opacity: 0.2;
+      pointer-events: none;
+    }
   }
 
   &__arrow {

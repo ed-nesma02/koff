@@ -11,7 +11,6 @@ export class ProductList {
       this.element.classList.add('goods');
       this.containerElement = addContainer(this.element);
       this.isMounted = false;
-      this.addEvents();
     }
 
     return ProductList.instance;
@@ -52,9 +51,6 @@ export class ProductList {
     this.isMounted = false;
   }
 
-  addEvents(pageNumber) {
-    this.page = pageNumber;
-  }
   updateListElem(data = []) {
     const listElem = document.createElement('ul');
     listElem.classList.add('goods__list');

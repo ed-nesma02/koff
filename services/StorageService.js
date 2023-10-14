@@ -69,6 +69,6 @@ export class AccessKeyService extends StorageService {
       super(key);
       AccessKeyService.instance = this;
     }
-    return FavoriteService.instance;
+    return AccessKeyService.instance;
   }
 }

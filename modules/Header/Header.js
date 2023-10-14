@@ -76,7 +76,7 @@ export class Header {
 
     const favoriteLink = document.createElement('a');
     favoriteLink.classList.add('header__link');
-    favoriteLink.href = '/favorite?page=1';
+    favoriteLink.href = '/favorite';
     const favoriteText = document.createElement('span');
     favoriteText.classList.add('header__link-text');
     favoriteText.textContent = 'Избранное';

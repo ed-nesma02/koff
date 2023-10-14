@@ -61,7 +61,7 @@ export class ApiService {
 
   async getProductById(id) {
     {
-      return await this.getData(`/api/products/${id}`);
+      return await this.getData(`api/products/${id}`);
     }
   }
 }

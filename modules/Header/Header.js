@@ -2,6 +2,7 @@ import {Logo} from '../../features/Logo/Logo';
 import {likeSvg} from '../../features/likeSVG/likeSVG';
 import {addContainer} from '../addContainer';
 import {router} from '../../main';
+import { ApiService } from '../../services/ApiService';
 
 export class Header {
   static instance = null;
@@ -117,8 +118,12 @@ export class Header {
     return navigation;
   }
 
-  changeCount(n) {
-    // todo n - получить
-    this.countElement.textContent = `(${n})`;
+  async changeCount(n) {
+    if(n){
+      this.countElement.textContent = `(${n})`;
+      return;
+    }
+    const {totalCount} = await new ApiService().getCart();
+    this.countElement.textContent = `(${totalCount})`;
   }
 }

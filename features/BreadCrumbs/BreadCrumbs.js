@@ -13,19 +13,26 @@ export class BreadCrumbs {
         this.element,
         'breadcrumb__container'
       );
+      this.isMounted = false;
     }
 
     return BreadCrumbs.instance;
   }
-
+  
   mount(parent, data) {
     this.render(data);
+    if(this.isMounted){
+      return;
+    }
+
     parent.append(this.element);
+    this.isMounted = true;
     router.updatePageLinks();
   }
 
   unmount() {
     this.element.remove();
+    this.isMounted = false;
   }
 
   render(list) {

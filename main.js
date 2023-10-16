@@ -19,7 +19,7 @@ export const router = new Navigo('/', {linksSelector: "a[href^='/']"});
 
 const init = () => {
   const api = new ApiService();
-  new Header().mount(router);
+  new Header().mount();
   new Main().mount();
   new Footer().mount();
 
@@ -111,7 +111,9 @@ const init = () => {
       }
     )
     .on('/search', async ({params: {search, page}}) => {
+      new Catalog().mount(new Main().element);
       const product = await api.getProducts({page: page || 1, search});
+      new BreadCrumbs().mount(new Main().element, [{text: `Поиск`}]);
       new ProductList().mount(
         new Main().element,
         product.data,
@@ -125,7 +127,15 @@ const init = () => {
       }
 
       router.updatePageLinks();
-    })
+    },{
+      leave(done) {
+        new BreadCrumbs().unmount();
+        new Catalog().unmount();
+        new ProductList().unmount();
+        done();
+      }
+    }
+    )
     .on(
       '/product/:id',
       async ({data: {id}}) => {

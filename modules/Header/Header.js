@@ -1,7 +1,7 @@
-import Navigo from 'navigo';
 import {Logo} from '../../features/Logo/Logo';
 import {likeSvg} from '../../features/likeSVG/likeSVG';
 import {addContainer} from '../addContainer';
+import {router} from '../../main';
 
 export class Header {
   static instance = null;
@@ -18,7 +18,7 @@ export class Header {
     return Header.instance;
   }
 
-  mount(router) {
+  mount() {
     if (this.isMounted) {
       return;
     }
@@ -38,18 +38,17 @@ export class Header {
     this.isMounted = false;
   }
 
-  getSearchForm(router) {
+  getSearchForm() {
     const searchForm = document.createElement('form');
     searchForm.classList.add('header__search');
     searchForm.method = 'get';
-    searchForm.action = '/search'
+    searchForm.action = '/search';
 
     const input = document.createElement('input');
     input.classList.add('header__input');
     input.type = 'search';
     input.name = 'search';
     input.placeholder = 'Введите запрос';
-
 
     const button = document.createElement('button');
     button.classList.add('header__btn');

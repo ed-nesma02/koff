@@ -53,6 +53,12 @@
     &::placeholder {
       color: #969eae;
     }
+    &:disabled {
+      background-color: #ffffff;
+      &::placeholder {
+        color: #ffffff;
+      }
+    }
   }
 
   &__textarea {

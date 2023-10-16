@@ -1,3 +1,4 @@
+import { router } from '../../../main';
 import {addContainer} from '../../addContainer';
 
 export class Order {
@@ -15,13 +16,13 @@ export class Order {
     return Order.instance;
   }
 
-  mount(parent) {
+  mount(parent, data) {
     if (this.isMounted) {
       return;
     }
-
-    const header = this.getHeader();
-    const info = this.getInfo();
+    
+    const header = this.getHeader(data);
+    const info = this.getInfo(data);
     const link = this.getLink();
 
     this.containerElement.append(header, info, link);
@@ -34,24 +35,24 @@ export class Order {
     this.isMounted = false;
   }
 
-  getHeader() {
+  getHeader(data) {
     const header = document.createElement('div');
     header.classList.add('order__header');
     header.innerHTML = `<h2 class="order__title">Заказ успешно размещен</h2>`;
 
     const price = document.createElement('p');
     price.classList.add('order__price');
-    price.innerHTML = '20&nbsp;000&nbsp;₽';
+    price.innerHTML = `${data.totalPrice.toLocaleString()}&nbsp;₽`;
 
     const number = document.createElement('p');
     number.classList.add('order__number');
-    number.textContent = '№43435';
+    number.innerHTML = `№&nbsp;${data.id}`
 
     header.append(price, number);
     return header;
   }
 
-  getInfo() {
+  getInfo(data) {
     const info = document.createElement('div');
     info.classList.add('order__info');
     info.innerHTML = `<h3 class="order__info-title">Данные доставки</h3>`;
@@ -60,12 +61,12 @@ export class Order {
     list.classList.add('order__info-list', 'order-list');
 
     list.append(
-      this.getInfoItem('Получатель', 'Иванов Петр Александрович'),
-      this.getInfoItem('Телефон', '+7 (737) 346 23 00'),
-      this.getInfoItem('E-mail', 'Ivanov84@gmail.com'),
-      this.getInfoItem('Адрес доставки', 'Москва, ул. Ленина, 21, кв. 33'),
-      this.getInfoItem('Способ оплаты', 'Картой при получении'),
-      this.getInfoItem('Способ получения', 'Доставка')
+      this.getInfoItem('Получатель', data.name),
+      this.getInfoItem('Телефон', data.phone),
+      this.getInfoItem('E-mail', data.email),
+      data.address ? this.getInfoItem('Адрес доставки', data.address) : '',
+      this.getInfoItem('Способ оплаты', data.paymentType === 'card' ? 'Картой при получении' : 'Наличными при получении'),
+      this.getInfoItem('Способ получения', data.deliveryType === 'pickup' ? 'Самовывоз' : 'Доставка')
     );
 
     info.append(list);
@@ -89,10 +90,14 @@ export class Order {
   }
 
   getLink() {
-    const link = document.createElement('a');
+    const link = document.createElement('button');
     link.classList.add('order__link');
     link.textContent = 'На главную';
-    link.href = '/';
+
+    link.addEventListener('click', e =>{
+      e.preventDefault();
+      router.navigate('/');
+    })
 
     return link;
   }

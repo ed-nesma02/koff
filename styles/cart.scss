@@ -202,6 +202,19 @@
     border: 1px solid transparent;
     background-color: #780096;
     color: #fff;
+    &:hover {
+      background: #9200B7;
+    }
+    &:focus-visible {
+      outline: 1px solid #C0F;
+      border: 1px solid #C0F;
+    }
+    &:disabled {
+      border-radius: 32px;
+      border: 1px solid #780096;
+      opacity: 0.2;
+      background: #780096;
+    }
   }
 
   &__form {

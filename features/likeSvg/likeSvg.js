@@ -1,6 +1,6 @@
 let like = null;
 
-export const likeSvg = async () => {
+export const likeSVG = async () => {
   if(!like){
     const response = await fetch('/img/like.svg');
     const svg = await response.text();

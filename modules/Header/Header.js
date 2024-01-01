@@ -1,5 +1,5 @@
 import {Logo} from '../../features/Logo/Logo';
-import {likeSvg} from '../../features/likeSvg/likeSvg';
+import {likeSvg} from '../../features/likeSVG/likeSVG';
 import {addContainer} from '../addContainer';
 import {router} from '../../main';
 import { ApiService } from '../../services/ApiService';

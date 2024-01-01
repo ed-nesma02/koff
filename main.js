@@ -13,7 +13,7 @@ import {FavoriteService} from './services/StorageService';
 import {Pagination} from './features/Pagination/Pagination';
 import {BreadCrumbs} from './features/BreadCrumbs/BreadCrumbs';
 import {ProductCard} from './modules/ProductCard/ProductCard';
-import {productSlider} from './features/ProductSlider/productSlider';
+import {productSlider} from './features/productSlider/productSlider';
 import { Cart } from './modules/Cart/Cart';
 
 export const router = new Navigo('/', {linksSelector: "a[href^='/']"});

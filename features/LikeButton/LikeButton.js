@@ -1,5 +1,5 @@
 import {FavoriteService} from '../../services/StorageService';
-import {likeSvg} from '../likeSVG/likeSVG';
+import {likeSvg} from '../likeSvg/likeSvg';
 
 export class LikeButton {
   constructor(className) {

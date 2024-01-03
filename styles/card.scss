@@ -86,7 +86,14 @@
     svg {
       fill: #fff;
     }
-    &:hover,
+    @media (hover:hover){
+      &:hover {
+        color: #9200B7;
+      svg {
+        fill: #9200B7;
+      }
+      }
+    }
     &_active{
       color: #9200B7;
       svg {

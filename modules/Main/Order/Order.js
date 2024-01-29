@@ -42,11 +42,11 @@ export class Order {
 
     const price = document.createElement('p');
     price.classList.add('order__price');
-    price.innerHTML = `${data.totalPrice.toLocaleString()}&nbsp;₽`;
+    price.innerHTML = `${data?.totalPrice.toLocaleString()}&nbsp;₽`;
 
     const number = document.createElement('p');
     number.classList.add('order__number');
-    number.innerHTML = `№&nbsp;${data.id}`
+    number.innerHTML = `№&nbsp;${data?.id}`
 
     header.append(price, number);
     return header;
@@ -61,12 +61,12 @@ export class Order {
     list.classList.add('order__info-list', 'order-list');
 
     list.append(
-      this.getInfoItem('Получатель', data.name),
-      this.getInfoItem('Телефон', data.phone),
-      this.getInfoItem('E-mail', data.email),
-      data.address ? this.getInfoItem('Адрес доставки', data.address) : '',
-      this.getInfoItem('Способ оплаты', data.paymentType === 'card' ? 'Картой при получении' : 'Наличными при получении'),
-      this.getInfoItem('Способ получения', data.deliveryType === 'pickup' ? 'Самовывоз' : 'Доставка')
+      this.getInfoItem('Получатель', data?.name),
+      this.getInfoItem('Телефон', data?.phone),
+      this.getInfoItem('E-mail', data?.email),
+      data?.address ? this.getInfoItem('Адрес доставки', data?.address) : '',
+      this.getInfoItem('Способ оплаты', data?.paymentType === 'card' ? 'Картой при получении' : 'Наличными при получении'),
+      this.getInfoItem('Способ получения', data?.deliveryType === 'pickup' ? 'Самовывоз' : 'Доставка')
     );
 
     info.append(list);
